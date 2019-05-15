@@ -50,14 +50,14 @@ class Login extends Component {
                     <Text style={{ textAlign: "center", fontSize: 35 }} >LOGIN</Text>
                     <TextInput
                         placeholder="email"
-                        placeholderTextColor="black"
+                        TextInput="black"
                         underlineColorAndroid="black"
                         onChangeText={email => this.setState({ email })}
                     />
 
                     <TextInput
                         placeholder="senha"
-                        placeholderTextColor="#blue"
+                        TextInput="#blue"
                         password="true"
                         underlineColorAndroid="blue"
                         onChangeText={senha => this.setState({ senha })}

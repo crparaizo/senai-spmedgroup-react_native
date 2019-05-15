@@ -1,5 +1,5 @@
 import { createBottomTabNavigator, createAppContainer, createStackNavigator, createSwitchNavigator } from "react-navigation";
-import { Login } from "./pages/Login/login";
+import Login from "./pages/Login/login";
 import ListaClinicas from "./pages/Clinicas/listaClinicas";
 import ListaConsultas from "./pages/Consultas/listaConsultas";
 import ListaEspecialidades from "./pages/Especialidades/listaEspecialidades";
