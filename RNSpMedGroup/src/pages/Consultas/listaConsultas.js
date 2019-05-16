@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 
-import { AsyncStorage } from 'react-native';
-
 import {
     StyleSheet,
     View,
@@ -9,17 +7,26 @@ import {
     Image,
     TextInput,
     TouchableOpacity,
-    FlatList
+    FlatList,
+    AsyncStorage
 } from "react-native";
+
+import moment from 'moment';
 
 import Api from "../../services/Api";
 
 export default class ListaConsultas extends Component {
 
+    static navigationOptions = {
+        title: 'Consultas'
+    };
+
     constructor(props) {
         super(props);
         this.state = {
             listaConsultas: [],
+            listaMedicos: [],
+            listaProntuarios: [],
             IdUsuario: "",
             token: ""
         };
@@ -27,14 +34,14 @@ export default class ListaConsultas extends Component {
 
     componentDidMount() {
         this.carregaToken();
-
-        // this.carregarConsultas();
     };
 
     carregaToken = async () => {
         await AsyncStorage.getItem("userToken").then((token) => {
             this.setState({ token: token }, () => {
                 this.carregarConsultas();
+                this.carregarProntuarios();
+                this.carregarMedicos();
                 this.buscarDados();
             });
         });
@@ -66,6 +73,38 @@ export default class ListaConsultas extends Component {
         }
     };
 
+    carregarProntuarios = async () => {
+        try {
+            const userToken = this.state.token;
+            const resposta = await Api.get("/prontuarios", {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "bearer " + userToken //COLOCAR ESPAÇO ENTRE O BEARER E O TOKEN
+                }
+            });
+            const dadosDaApi = resposta.data;
+            this.setState({ listaProntuarios: dadosDaApi });
+        } catch (error) {
+            alert('ERROR ' + error);
+        }
+    };
+
+    carregarMedicos = async () => {
+        try {
+            const userToken = this.state.token;
+            const resposta = await Api.get("/medicos", {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "bearer " + userToken //COLOCAR ESPAÇO ENTRE O BEARER E O TOKEN
+                }
+            });
+            const dadosDaApi = resposta.data;
+            this.setState({ listaMedicos: dadosDaApi });
+        } catch (error) {
+            alert('ERROR ' + error);
+        }
+    };
+
     render() {
         return (
             // SafeAreaView
@@ -91,11 +130,12 @@ export default class ListaConsultas extends Component {
     renderizaItem = ({ item }) => (
         <View >
             <View>
-                <Text >IdProntuario: {item.idProntuario}</Text>
-                <Text >IdMedico: {item.idMedico}</Text>
-                <Text >Data: {item.dataHoraConsulta}</Text>
-                <Text >idSituacao: {item.idSituacao}</Text>
-                <Text >Descricao: {item.descricao}</Text>
+                <Text >Prontuário: {item.idProntuarioNavigation.idUsuarioNavigation.nome}</Text>
+                <Text >Médico: {item.idMedicoNavigation.idUsuarioNavigation.nome}</Text>
+                <Text >Data: {moment(item.dataHoraConsulta).format("DD/MM/YYYY - HH:mm")}</Text>
+                {/* <Text >Data: {item.dataHoraConsulta}</Text> */}
+                <Text >Situação: {item.idSituacaoNavigation.nome}</Text>
+                <Text >Descrição: {item.descricao}</Text>
             </View>
         </View>
     );

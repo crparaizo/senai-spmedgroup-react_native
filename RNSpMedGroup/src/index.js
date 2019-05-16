@@ -20,14 +20,14 @@ const MainNavigator = createBottomTabNavigator(
     },
     {
         initialRouteName: "ListaConsultas",
-        swipeEnabled: false,
+        swipeEnabled: true,
         tabBarOptions: {
-            showLabel: false,
+            showLabel: true,
             showIcon: false,
-            inactiveBackgroundColor: "none",
-            activeBackgroundColor: "none",
-            activeTintColor: "none",
-            inactiveTintColor: "none",
+            inactiveBackgroundColor: "pink",
+            activeBackgroundColor: "purple",
+            activeTintColor: "blue",
+            inactiveTintColor: "green",
             style: {
                 height: 50
             }
