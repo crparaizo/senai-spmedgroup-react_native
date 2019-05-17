@@ -33,7 +33,7 @@ class Login extends Component {
 
         const token = resposta.data.token;
         await AsyncStorage.setItem("userToken", token);
-        this.props.navigation.navigate("MainNavigator");
+        this.props.navigation.navigate("Esperar");
 
     };
 
