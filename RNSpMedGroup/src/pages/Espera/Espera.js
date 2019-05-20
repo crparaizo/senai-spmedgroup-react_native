@@ -13,8 +13,6 @@ import {
     AsyncStorage
 } from "react-native";
 
-import Api from "../../services/Api";
-
 export default class EsperarAuth extends Component {
     static navigationOptions = {
         header: null
@@ -54,7 +52,6 @@ export default class EsperarAuth extends Component {
 
 
     carregarPage = async () => {
-
 
         // let decode = jwtDecode(token);
         const userToken = this.state.token;

@@ -11,7 +11,7 @@ import {
     AsyncStorage
 } from "react-native";
 
-import Api from "../../services/Api";
+import api from "../../services/api";
 
 class Login extends Component {
     static navigationOptions = {
@@ -26,7 +26,7 @@ class Login extends Component {
     _realizarLogin = async () => {
         // console.warn(this.state.email + this.state.senha);
 
-        const resposta = await Api.post("/login", {
+        const resposta = await api.post("/login", {
             email: this.state.email,
             senha: this.state.senha
         });

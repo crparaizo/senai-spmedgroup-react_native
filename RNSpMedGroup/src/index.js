@@ -6,9 +6,12 @@ import ListaEspecialidades from "./pages/Especialidades/listaEspecialidades";
 import ListaMedicos from "./pages/Medicos/listaMedicos";
 import ListaProntuarios from "./pages/Prontuarios/listaProntuarios";
 import ListaUsuarios from "./pages/Usuarios/listaUsuarios";
-import Espera from "./pages/Espera/Espera";
+import EsperarAuth from "./pages/Espera/espera";
+import Sair from "./pages/Sair/sair";
 
-const AuthStack = createStackNavigator({ Login});
+const AuthStack = createStackNavigator({ Login });
+
+const Saida = createStackNavigator({ Sair });
 
 const MainNavigator = createBottomTabNavigator(
     {
@@ -18,7 +21,6 @@ const MainNavigator = createBottomTabNavigator(
         ListaMedicos,
         ListaProntuarios,
         ListaUsuarios
-        //Colocar um Navigator para cada Tipo de Usuário
     },
     {
         initialRouteName: "ListaConsultas",
@@ -37,7 +39,7 @@ const MainNavigator = createBottomTabNavigator(
     }
 );
 
-const Esperar = createStackNavigator({ Espera});
+const Esperar = createStackNavigator({ EsperarAuth });
 
 const MedNavigator = createBottomTabNavigator(
     {
@@ -64,7 +66,8 @@ export default createAppContainer(
             AuthStack,
             PacNavigator,
             MedNavigator,
-            Esperar
+            Esperar,
+            Saida
         },
         {
             initialRouteName: "AuthStack"
