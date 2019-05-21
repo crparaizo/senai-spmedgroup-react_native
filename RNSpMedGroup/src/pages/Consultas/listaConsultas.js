@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import jwtDecode from 'jwt-decode';
 
+import Icon from 'react-native-vector-icons/Ionicons';
+
 import {
     StyleSheet,
     View,
@@ -9,7 +11,8 @@ import {
     TextInput,
     TouchableOpacity,
     FlatList,
-    AsyncStorage
+    AsyncStorage,
+    SafeAreaView
 } from "react-native";
 
 import moment from 'moment';
@@ -124,44 +127,102 @@ export default class ListaConsultas extends Component {
 
     render() {
         return (
-            // SafeAreaView
-            <View >
-                <View>
-                    <View>
-                        <Text>{"Consultas".toUpperCase()}</Text>
-                    </View>
-                    <TouchableOpacity onPress={this.logout}>
-                        <Text>{"Sair".toUpperCase()}</Text>
-                    </TouchableOpacity>
-                </View>
-
+            <SafeAreaView style={styles.safeAreaView}>
                 <View >
-                    <FlatList
-                        data={this.state.listaConsultas}
-                        keyExtractor={item => item.id}
-                        renderItem={this.renderizaItem}
-                    />
+                    <View style={styles.header}>
+                        <Icon size={30} name="md-menu" style={styles.header__icon} onPress={this.logout}></Icon>
+                        <Text style={styles.header__texto}>{"Consultas".toUpperCase()}</Text>
+                        <Icon size={30} name="md-power" style={styles.header__icon} onPress={this.logout}></Icon>
+                        {/* <TouchableOpacity style={styles.titulo_botao} onPress={this.logout}>
+                                <Image source={require("../../assets/img/iconfinder_060_Off_183189.png")} />
+                                <Text>{"Sair".toUpperCase()}</Text>
+                            </TouchableOpacity> */}
+                    </View>
+
+                    <View style={styles.consultasLista}>
+                        <FlatList style={styles.consultasLista__flatlist}
+                            data={this.state.listaConsultas}
+                            keyExtractor={item => item.id}
+                            renderItem={this.renderizaItem}
+                        />
+                    </View>
+
+                    <View style={styles.rodape}>
+                        <TouchableOpacity style={styles.rodape__botao} onPress={this.logout}>
+                            <Text style={styles.rodape__texto}>{"Sair".toUpperCase()}</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                
-                <View>
-                    <TouchableOpacity onPress={this.logout}>
-                        <Text>{"Sair".toUpperCase()}</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
+            </SafeAreaView>
         );
     }
 
     renderizaItem = ({ item }) => (
         <View >
-            <View>
-                <Text >Prontuário: {item.idProntuarioNavigation.idUsuarioNavigation.nome}</Text>
-                <Text >Médico: {item.idMedicoNavigation.idUsuarioNavigation.nome}</Text>
-                <Text >Data: {moment(item.dataHoraConsulta).format("DD/MM/YYYY - HH:mm")}</Text>
-                {/* <Text >Data: {item.dataHoraConsulta}</Text> */}
-                <Text >Situação: {item.idSituacaoNavigation.nome}</Text>
-                <Text >Descrição: {item.descricao}</Text>
+            <View style={styles.conteudo}>
+                <View style={styles.conteudo__topo}>
+                    <Text >Data: {moment(item.dataHoraConsulta).format("DD/MM/YYYY - HH:mm")}</Text>
+                </View>
+                <View style={styles.conteudo__corpo}>
+                    <Text >Situação: {item.idSituacaoNavigation.nome}</Text>
+                    <Text >Prontuário: {item.idProntuarioNavigation.idUsuarioNavigation.nome}</Text>
+                    <Text >Médico: {item.idMedicoNavigation.idUsuarioNavigation.nome}</Text>
+                    <Text >Descrição: {item.descricao}</Text>
+                </View>
             </View>
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+
+    safeAreaView: {
+        flex: 1,
+        backgroundColor: 'rgba(234,202,169,0.45)'
+    },
+    header: {
+        paddingTop: "7%",
+        flex: 1,
+        flexDirection: 'row',
+        // height: 30,
+        // width: 100 , 
+
+        alignItems: 'center',
+        justifyContent: 'space-around'
+
+
+    },
+    header__texto: {
+
+    },
+    header__icon: {
+
+    },
+    consultasLista: {
+        marginTop: "10%"
+
+    },
+    consultasLista__flatlist: {
+
+    },
+    rodape: {
+
+    },
+    rodape__botao: {
+
+    },
+    rodape__texto: {
+
+    },
+    conteudo: {
+
+    },
+    conteudo__topo: {
+
+    },
+    conteudo__corpo: {
+
+    },
+    bold: { fontWeight: 'bold' },
+    italic: { fontStyle: 'italic' }
+});

@@ -70,7 +70,8 @@ export default createAppContainer(
             Saida
         },
         {
-            initialRouteName: "AuthStack"
+            //initialRouteName: "AuthStack"
+            initialRouteName: "MainNavigator"
         }
     )
 );

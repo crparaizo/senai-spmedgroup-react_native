@@ -73,7 +73,7 @@ export default class EsperarAuth extends Component {
                 <View>
                     <Text >{"Carregando...Espere um pouco!!!!!!!!".toUpperCase()}</Text>
                     <TouchableOpacity onPress={this.carregarPage}>
-                        <Text >{"VAI".toUpperCase()}</Text>
+                        <Text >{"Prosseguir".toUpperCase()}</Text>
                     </TouchableOpacity>
                 </View>
             </View>
