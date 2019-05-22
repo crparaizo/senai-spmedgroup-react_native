@@ -23,17 +23,25 @@ const MainNavigator = createBottomTabNavigator(
         ListaUsuarios
     },
     {
-        initialRouteName: "ListaConsultas",
+        initialRouteName: "ListaUsuarios",
         swipeEnabled: true,
         tabBarOptions: {
             showLabel: true,
             showIcon: false,
-            inactiveBackgroundColor: "pink",
-            activeBackgroundColor: "purple",
-            activeTintColor: "blue",
-            inactiveTintColor: "green",
+            inactiveBackgroundColor: "black",
+            activeBackgroundColor: "lightblue",
+            activeTintColor: "white",
+            inactiveTintColor: "white",
+            //allowFontScaling: false,
             style: {
                 height: 50
+            },
+            labelStyle: {
+                fontSize: 13,
+                justifyContent: 'center'
+            },
+            tabStyle: {
+                //width: 100,
             }
         }
     }

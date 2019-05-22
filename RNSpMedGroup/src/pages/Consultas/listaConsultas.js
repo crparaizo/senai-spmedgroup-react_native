@@ -7,13 +7,8 @@ import {
     StyleSheet,
     View,
     Text,
-    Image,
-    TextInput,
-    TouchableOpacity,
     FlatList,
-    AsyncStorage,
-    SafeAreaView
-} from "react-native";
+    AsyncStorage} from "react-native";
 
 import moment from 'moment';
 
@@ -127,101 +122,117 @@ export default class ListaConsultas extends Component {
 
     render() {
         return (
-            <SafeAreaView style={styles.safeAreaView}>
-                <View >
-                    <View style={styles.header}>
-                        <Icon size={30} name="md-menu" style={styles.header__icon} onPress={this.logout}></Icon>
-                        <Text style={styles.header__texto}>{"Consultas".toUpperCase()}</Text>
-                        <Icon size={30} name="md-power" style={styles.header__icon} onPress={this.logout}></Icon>
-                        {/* <TouchableOpacity style={styles.titulo_botao} onPress={this.logout}>
+            <View style={styles.mainConsulta}>
+                {/* <SafeAreaView style={styles.safeAreaViewTop} /> */}
+                {/* <SafeAreaView style={styles.safeAreaView} > */}
+                <View style={styles.headerConsulta}>
+                    <Text style={[styles.headerConsulta__texto, styles.bold, styles.italic]}>{"Consultas".toUpperCase()}</Text>
+                    <Icon size={30} name="md-exit" style={styles.headerConsulta__icon} onPress={this.logout}></Icon>
+                    {/* <TouchableOpacity style={styles.titulo_botao} onPress={this.logout}>
                                 <Image source={require("../../assets/img/iconfinder_060_Off_183189.png")} />
                                 <Text>{"Sair".toUpperCase()}</Text>
                             </TouchableOpacity> */}
-                    </View>
-
-                    <View style={styles.consultasLista}>
-                        <FlatList style={styles.consultasLista__flatlist}
-                            data={this.state.listaConsultas}
-                            keyExtractor={item => item.id}
-                            renderItem={this.renderizaItem}
-                        />
-                    </View>
-
-                    <View style={styles.rodape}>
-                        <TouchableOpacity style={styles.rodape__botao} onPress={this.logout}>
-                            <Text style={styles.rodape__texto}>{"Sair".toUpperCase()}</Text>
-                        </TouchableOpacity>
-                    </View>
                 </View>
-            </SafeAreaView>
+
+                <View style={styles.consultasLista}>
+                    <FlatList style={styles.consultasLista__flatlist}
+                        data={this.state.listaConsultas}
+                        keyExtractor={item => item.id}
+                        renderItem={this.renderizaItem}
+                    />
+                </View>
+
+                <View style={styles.rodapeConsulta}>
+                    <Text style={[styles.rodapeConsulta__texto, styles.italic]} >SPMedicalGroup</Text>
+                </View>
+                {/* </SafeAreaView> */}
+            </View>
         );
     }
 
     renderizaItem = ({ item }) => (
-        <View >
-            <View style={styles.conteudo}>
-                <View style={styles.conteudo__topo}>
-                    <Text >Data: {moment(item.dataHoraConsulta).format("DD/MM/YYYY - HH:mm")}</Text>
+            <View style={styles.conteudoConsulta}>
+                <View style={styles.conteudoConsulta__topo}>
+                    <Text style={styles.conteudoConsulta__topoTexto} >Data: {moment(item.dataHoraConsulta).format("DD/MM/YYYY - HH:mm")}</Text>
                 </View>
-                <View style={styles.conteudo__corpo}>
-                    <Text >Situação: {item.idSituacaoNavigation.nome}</Text>
-                    <Text >Prontuário: {item.idProntuarioNavigation.idUsuarioNavigation.nome}</Text>
-                    <Text >Médico: {item.idMedicoNavigation.idUsuarioNavigation.nome}</Text>
-                    <Text >Descrição: {item.descricao}</Text>
+                <View style={styles.conteudoConsulta__corpo}>
+                    <Text style={styles.conteudoConsulta__corpoTexto} >Situação: {item.idSituacaoNavigation.nome}</Text>
+                    <Text style={styles.conteudoConsulta__corpoTexto} >Prontuário: {item.idProntuarioNavigation.idUsuarioNavigation.nome}</Text>
+                    <Text style={styles.conteudoConsulta__corpoTexto} >Médico: {item.idMedicoNavigation.idUsuarioNavigation.nome}</Text>
+                    <Text style={styles.conteudoConsulta__corpoTexto} >Descrição: {item.descricao}</Text>
                 </View>
             </View>
-        </View>
     );
 }
 
-const styles = StyleSheet.create({
 
-    safeAreaView: {
-        flex: 1,
-        backgroundColor: 'rgba(234,202,169,0.45)'
+const styles = StyleSheet.create({
+    main: {
+        // height: '100%'
     },
-    header: {
-        paddingTop: "7%",
-        flex: 1,
+    // safeAreaViewTop: {
+    //     flex: 1,
+    //     backgroundColor: '#C72525',
+    // },
+    // safeAreaViewBottom: {
+    //     flex: 1,
+    //     backgroundColor: '#C72525',
+    // },
+    headerConsulta: {
         flexDirection: 'row',
-        // height: 30,
-        // width: 100 , 
+        height: 70,
+        //flex: 1,
 
         alignItems: 'center',
-        justifyContent: 'space-around'
-
-
+        justifyContent: 'space-around',
+        backgroundColor: 'rgba(231,107,107,0.59)'
     },
-    header__texto: {
-
+    headerConsulta__texto: {
+        fontSize: 30,
+        color: '#707070'
     },
-    header__icon: {
+    headerConsulta__icon: {
 
     },
     consultasLista: {
-        marginTop: "10%"
-
+        borderTopColor: 'black',
+        borderTopWidth: 1,
     },
     consultasLista__flatlist: {
+        height: 500 //Diminuir tamanho da Lista para apareer o que tem embaixo disso
+    },
+    rodapeConsulta: {
+        alignItems: 'center',
+        padding: '2%',
+        color: 'rgba(112,112,112,0.47)',
+        borderRadius: 4,
+        borderWidth: 1,
+        borderColor: '#d6d7da',
+    },
+    rodapeConsulta__texto: {
 
     },
-    rodape: {
-
+    conteudoConsulta: {
+        // height:, // teste
+        marginLeft: '20%',
+        marginBottom: 20,
+        marginRight: '20%'
     },
-    rodape__botao: {
-
+    conteudoConsulta__topo: {
+        alignItems: 'center',
+        marginTop: '10%',
+        backgroundColor: 'rgba(231,107,107,0.59)',
+        color: '#CF1313'
     },
-    rodape__texto: {
-
+    conteudoConsulta__topoTexto: {
+        color: '#CF1313'
     },
-    conteudo: {
-
+    conteudoConsulta__corpo: {
+        backgroundColor: 'rgba(246,216,232,0.5)',
+        color: '#B1458A'
     },
-    conteudo__topo: {
-
-    },
-    conteudo__corpo: {
-
+    conteudoConsulta__corpoTexto: {
+        color: '#B1458A'
     },
     bold: { fontWeight: 'bold' },
     italic: { fontStyle: 'italic' }

@@ -5,7 +5,6 @@ import {
     View,
     Text,
     Image,
-    ImageBackground,
     TextInput,
     TouchableOpacity,
     AsyncStorage,
@@ -89,11 +88,11 @@ const styles = StyleSheet.create({
     //     backgroundColor: 'rgba(234,202,169,0.45)',
     //     color:'rgba(234,202,169,0.45)'
     // },
-    safeAreaView:{
-        flex: 1, 
-        backgroundColor: 'rgba(234,202,169,0.45)' 
+    safeAreaView: {
+        flex: 1,
+        backgroundColor: 'rgba(234,202,169,0.45)'
     },
-    formularioLogin:{
+    formularioLogin: {
         flex: 1,
         flexDirection: 'column',
         alignItems: 'center'
@@ -110,7 +109,6 @@ const styles = StyleSheet.create({
         marginBottom: '7%',
         width: 350
         //textAlign: 'center'
-
     },
     formularioLogin__botao: {
         width: 150,
@@ -118,7 +116,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'black',
         padding: 10,
-        marginTop:"5%",
+        marginTop: "5%",
         marginBottom: "20%",
         backgroundColor: 'rgba(120,128,159,0.28)'
     },
