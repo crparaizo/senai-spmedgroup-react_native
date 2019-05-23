@@ -9,8 +9,12 @@ import {
     TextInput,
     TouchableOpacity,
     FlatList,
-    AsyncStorage
+    AsyncStorage,
 } from "react-native";
+
+import Icon from 'react-native-vector-icons/Ionicons';
+
+import moment from 'moment';
 
 import api from "../../services/api";
 
@@ -24,7 +28,6 @@ export default class ListaProntuarios extends Component {
         super(props);
         this.state = {
             listaProntuarios: [],
-            listaUsuarios: [],
             tipoUsuario: "",
             token: ""
         };
@@ -52,7 +55,6 @@ export default class ListaProntuarios extends Component {
         await AsyncStorage.getItem("userToken").then((token) => {
             this.setState({ token: token }, () => {
                 this.carregarProntuarios();
-                this.carregarUsuarios();
                 this.buscarDados();
             });
         });
@@ -85,62 +87,108 @@ export default class ListaProntuarios extends Component {
         }
     };
 
-    carregarUsuarios = async () => {
-        try {
-            const userToken = this.state.token;
-            const resposta = await api.get("/usuarios", {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "bearer " + userToken //COLOCAR ESPAÇO ENTRE O BEARER E O TOKEN
-                }
-            });
-            const dadosDaApi = resposta.data;
-            this.setState({ listaUsuarios: dadosDaApi });
-        } catch (error) {
-            alert('ERROR ' + error);
-        }
-    };
+
 
     render() {
         return (
             // SafeAreaView
             <View >
                 <View>
-                    <View>
-                        <Text>{"Prontuários".toUpperCase()}</Text>
+                    <View style={styles.headerProntuario}>
+                        <Text style={[styles.headerProntuario__texto, styles.bold, styles.italic]}>{"Prontuários".toUpperCase()}</Text>
+                        <Icon size={30} name="md-exit" style={styles.headerProntuario__icon} onPress={this.logout}></Icon>
                     </View>
-                    <TouchableOpacity onPress={this.logout}>
-                        <Text>{"Sair".toUpperCase()}</Text>
-                    </TouchableOpacity>
                 </View>
 
-                <View >
-                    <FlatList
+                <View style={styles.prontuariosLista} >
+                    <FlatList style={styles.prontuariosLista__flatlist}
                         data={this.state.listaProntuarios}
                         keyExtractor={item => item.id}
                         renderItem={this.renderizaItem}
                     />
                 </View>
 
-                <View>
-                    <TouchableOpacity onPress={this.logout}>
-                        <Text>{"Sair".toUpperCase()}</Text>
-                    </TouchableOpacity>
+                <View style={styles.rodapeProntuario}>
+                    <Text style={[styles.rodapeProntuario__texto, styles.italic]} >SPMedicalGroup</Text>
                 </View>
             </View>
         );
     }
 
     renderizaItem = ({ item }) => (
-        <View >
-            <View>
-                <Text >Paciente: {item.idUsuarioNavigation.nome}</Text>
-                <Text >RG: {item.rg}</Text>
-                <Text >CPF: {item.cpf}</Text>
-                <Text >Data Nascimento: {item.dataNascimento}</Text>
-                <Text >Telefone: {item.telefone}</Text>
-                <Text >Endereço: {item.endereco}</Text>
+        <View style={styles.conteudoProntuario} >
+            <View style={styles.conteudoProntuario__topo}>
+                <Text style={styles.conteudoProntuario__topoTexto} >CPF: {item.cpf}</Text>
+            </View>
+            <View style={styles.conteudoProntuario__corpo}>
+                <Text style={styles.conteudoProntuario__corpo} >Paciente: {item.idUsuarioNavigation.nome}</Text>
+                <Text style={styles.conteudoProntuario__corpo} >RG: {item.rg}</Text>
+                <Text style={styles.conteudoProntuario__corpo}>Data Nascimento: {moment(item.dataNascimento).format("DD/MM/YYYY")}</Text>
+                <Text style={styles.conteudoProntuario__corpo} >Telefone: {item.telefone}</Text>
+                <Text style={styles.conteudoProntuario__corpo}>Endereço: {item.endereco}</Text>
             </View>
         </View>
     );
 };
+
+const styles = StyleSheet.create({
+    main: {
+        //height: '100%'
+    },
+    headerProntuario: {
+        flexDirection: 'row',
+        height: 70,
+
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        backgroundColor: '#A8E0F1'
+    },
+    headerProntuario__texto: {
+        fontSize: 30,
+        color: '#707070'
+    },
+    headerProntuario__icon: {
+
+    },
+    prontuariosLista: {
+        borderTopColor: 'black',
+        borderTopWidth: 1,
+    },
+    prontuariosLista__flatlist: {
+        height: 500 //Diminuir tamanho da Lista para apareer o que tem embaixo disso
+    },
+    rodapeProntuario: {
+        alignItems: 'center',
+        padding: '2%',
+        color: 'rgba(112,112,112,0.47)',
+        borderRadius: 4,
+        borderWidth: 1,
+        borderColor: '#d6d7da',
+    },
+    rodapeProntuario__texto: {
+
+    },
+    conteudoProntuario: {
+        marginLeft: '10%',
+        marginBottom: 20,
+        marginRight: '10%'
+    },
+    conteudoProntuario__topo: {
+        alignItems: 'center',
+        marginTop: '10%',
+        backgroundColor: '#A8E0F1',
+        color: '#707070'
+    },
+    conteudoProntuario__topoTexto: {
+        color: '#FFF9F9'
+    },
+    conteudoProntuario__corpo: {
+        backgroundColor: 'rgba(220,211,216,0.5)',
+        color: 'rgba(112,112,112,0.6)'
+    },
+    conteudoProntuario__corpoTexto: {
+        color: '#9C9098'
+    },
+    bold: { fontWeight: 'bold' },
+    italic: { fontStyle: 'italic' }
+});

@@ -24,8 +24,6 @@ export default class ListaConsultas extends Component {
         super(props);
         this.state = {
             listaConsultas: [],
-            listaMedicos: [],
-            listaProntuarios: [],
             tipoUsuario: "",
             token: ""
         };
@@ -54,8 +52,6 @@ export default class ListaConsultas extends Component {
             this.setState({ token: token }, () => {
                 //console.warn(token)
                 this.carregarConsultas();
-                this.carregarProntuarios();
-                this.carregarMedicos();
                 this.buscarDados();
             });
         });
@@ -83,38 +79,6 @@ export default class ListaConsultas extends Component {
             });
             const dadosDaApi = resposta.data;
             this.setState({ listaConsultas: dadosDaApi });
-        } catch (error) {
-            alert('ERROR ' + error);
-        }
-    };
-
-    carregarProntuarios = async () => {
-        try {
-            const userToken = this.state.token;
-            const resposta = await api.get("/prontuarios", {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "bearer " + userToken //COLOCAR ESPAÇO ENTRE O BEARER E O TOKEN
-                }
-            });
-            const dadosDaApi = resposta.data;
-            this.setState({ listaProntuarios: dadosDaApi });
-        } catch (error) {
-            alert('ERROR ' + error);
-        }
-    };
-
-    carregarMedicos = async () => {
-        try {
-            const userToken = this.state.token;
-            const resposta = await api.get("/medicos", {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "bearer " + userToken //COLOCAR ESPAÇO ENTRE O BEARER E O TOKEN
-                }
-            });
-            const dadosDaApi = resposta.data;
-            this.setState({ listaMedicos: dadosDaApi });
         } catch (error) {
             alert('ERROR ' + error);
         }

@@ -23,7 +23,7 @@ const MainNavigator = createBottomTabNavigator(
         ListaUsuarios
     },
     {
-        initialRouteName: "ListaUsuarios",
+        initialRouteName: "ListaConsultas",
         swipeEnabled: true,
         tabBarOptions: {
             showLabel: true,
@@ -63,7 +63,8 @@ const PacNavigator = createBottomTabNavigator(
     {
         ListaClinicas,
         ListaConsultas,
-        ListaEspecialidades
+        ListaEspecialidades,
+        ListaMedicos
     }
 );
 
@@ -79,7 +80,7 @@ export default createAppContainer(
         },
         {
             //initialRouteName: "AuthStack"
-            initialRouteName: "MainNavigator"
+            initialRouteName: "Saida"
         }
     )
 );

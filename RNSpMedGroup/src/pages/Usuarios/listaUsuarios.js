@@ -89,10 +89,8 @@ export default class ListaUsuarios extends Component {
             // SafeAreaView
             <View style={styles.mainUsuario} >
                 <View style={styles.headerUsuario}>
-                    <View>
                         <Text style={[styles.headerUsuario__texto, styles.bold, styles.italic]}>{"Usuários".toUpperCase()}</Text>
                         <Icon size={30} name="md-exit" style={styles.headerUsuario__icon} onPress={this.logout}></Icon>
-                    </View>
                 </View>
 
                 <View style={styles.usuariosLista} >
@@ -126,24 +124,15 @@ export default class ListaUsuarios extends Component {
 
 const styles = StyleSheet.create({
     main: {
-        // height: '100%'
+         //height: '100%'
     },
-    // safeAreaViewTop: {
-    //     flex: 1,
-    //     backgroundColor: '#C72525',
-    // },
-    // safeAreaViewBottom: {
-    //     flex: 1,
-    //     backgroundColor: '#C72525',
-    // },
     headerUsuario: {
         flexDirection: 'row',
         height: 70,
-        //flex: 1,
 
         alignItems: 'center',
         justifyContent: 'space-around',
-        backgroundColor: 'rgba(231,107,107,0.59)'
+        backgroundColor: '#B6B6B6'
     },
     headerUsuario__texto: {
         fontSize: 30,
@@ -152,11 +141,11 @@ const styles = StyleSheet.create({
     headerUsuario__icon: {
 
     },
-    consultasLista: {
+    usuariosLista: {
         borderTopColor: 'black',
         borderTopWidth: 1,
     },
-    consultasLista__flatlist: {
+    usuariosLista__flatlist: {
         height: 500 //Diminuir tamanho da Lista para apareer o que tem embaixo disso
     },
     rodapeUsuario: {
@@ -171,7 +160,6 @@ const styles = StyleSheet.create({
 
     },
     conteudoUsuario: {
-        // height:, // teste
         marginLeft: '10%',
         marginBottom: 20,
         marginRight: '10%'
@@ -183,14 +171,14 @@ const styles = StyleSheet.create({
         color: '#707070'
     },
     conteudoUsuario__topoTexto: {
-        color: '#CF1313'
+        color: '#FFF9F9'
     },
     conteudoUsuario__corpo: {
-        backgroundColor: 'rgba(246,216,232,0.5)',
+        backgroundColor: 'rgba(220,211,216,0.5)',
         color: '#B1458A'
     },
     conteudoUsuario__corpoTexto: {
-        color: '#B1458A'
+        color: '#9C9098'
     },
     bold: { fontWeight: 'bold' },
     italic: { fontStyle: 'italic' }

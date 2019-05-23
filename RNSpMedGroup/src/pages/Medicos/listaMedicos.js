@@ -9,10 +9,14 @@ import {
     TextInput,
     TouchableOpacity,
     FlatList,
-    AsyncStorage
+    AsyncStorage,
 } from "react-native";
 
 import api from "../../services/api";
+
+
+import Icon from 'react-native-vector-icons/Ionicons';
+
 
 export default class ListaMedicos extends Component {
 
@@ -24,7 +28,6 @@ export default class ListaMedicos extends Component {
         super(props);
         this.state = {
             listaMedicos: [],
-            listaUsuarios: [],
             listaEspecialidades: [],
             tipoUsuario: "",
             token: ""
@@ -53,8 +56,6 @@ export default class ListaMedicos extends Component {
         await AsyncStorage.getItem("userToken").then((token) => {
             this.setState({ token: token }, () => {
                 this.carregarMedicos();
-                this.carregarUsuarios();
-                this.carregarEspecialidades();
                 this.buscarDados();
             });
         });
@@ -66,7 +67,7 @@ export default class ListaMedicos extends Component {
             if (value !== null) {
                 this.setState({ tipoUsuario: jwtDecode(value).tipoUsuario });
                 this.setState({ token: value });
-                // Alert.alert(this.state.tipoUsuario)
+                // Alert.alert(this.state.tipoMedico)
             }
         } catch (error) { }
     };
@@ -87,77 +88,107 @@ export default class ListaMedicos extends Component {
         }
     };
 
-    carregarUsuarios = async () => {
-        try {
-            const userToken = this.state.token;
-            const resposta = await api.get("/usuarios", {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "bearer " + userToken //COLOCAR ESPAÇO ENTRE O BEARER E O TOKEN
-                }
-            });
-            const dadosDaapi = resposta.data;
-            this.setState({ listaUsuarios: dadosDaapi });
-        } catch (error) {
-            alert('ERROR ' + error);
-        }
-    };
-
-    carregarEspecialidades = async () => {
-        try {
-            const userToken = this.state.token;
-            const resposta = await api.get("/especialidades", {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "bearer " + userToken //COLOCAR ESPAÇO ENTRE O BEARER E O TOKEN
-                }
-            });
-            const dadosDaApi = resposta.data;
-            this.setState({ listaEspecialidades: dadosDaApi });
-        } catch (error) {
-            alert('ERROR ' + error);
-        }
-    };
+    
 
     render() {
         return (
             // SafeAreaView
             <View >
                 <View>
-                    <View>
-                        <Text>{"Médicos".toUpperCase()}</Text>
+                    <View style={styles.headerMedico}>
+                        <Text style={[styles.headerMedico__texto, styles.bold, styles.italic]}>{"Médicos".toUpperCase()}</Text>
+                        <Icon size={30} name="md-exit" style={styles.headerMedico__icon} onPress={this.logout}></Icon>
                     </View>
-                    <TouchableOpacity onPress={this.logout}>
-                        <Text>{"Sair".toUpperCase()}</Text>
-                    </TouchableOpacity>
                 </View>
 
-                <View >
-                    <FlatList
+                <View style={styles.medicosLista} >
+                    <FlatList style={styles.medicosLista__flatlist}
                         data={this.state.listaMedicos}
                         keyExtractor={item => item.id}
                         renderItem={this.renderizaItem}
                     />
                 </View>
 
-                <View>
-                    <TouchableOpacity onPress={this.logout}>
-                        <Text>{"Sair".toUpperCase()}</Text>
-                    </TouchableOpacity>
+                <View style={styles.rodapeMedico}>
+                    <Text style={[styles.rodapeMedico__texto, styles.italic]} >SPMedicalGroup</Text>
                 </View>
             </View>
         );
     }
 
     renderizaItem = ({ item }) => (
-        <View >
-            <View>
-                <Text >Médico: {item.idUsuarioNavigation.nome}</Text>
-                <Text >CRM: {item.crm}</Text>
-                <Text >Especialidade: {item.idEspecialidadeNavigation.nome}</Text>
-                <Text >Clínica: {item.idClinicaNavigation.nomeFantasia}</Text>
-                <Text >Descrição: {item.descricao}</Text>
+        <View style={styles.conteudoMedico} >
+            <View style={styles.conteudoMedico__topo}>
+                <Text style={styles.conteudoMedico__topoTexto} >CRM: {item.crm}</Text>
+            </View>
+            <View style={styles.conteudoMedico__corpo}>
+                <Text style={styles.conteudoMedico__corpo} >Médico: {item.idUsuarioNavigation.nome}</Text>
+                <Text style={styles.conteudoMedico__corpo} >Especialidade: {item.idEspecialidadeNavigation.nome}</Text>
+                <Text style={styles.conteudoMedico__corpo} >Clínica: {item.idClinicaNavigation.nomeFantasia}</Text>
+                <Text style={styles.conteudoMedico__corpo}>Descrição: {item.descricao}</Text>
             </View>
         </View>
     );
 };
+
+const styles = StyleSheet.create({
+    main: {
+        //height: '100%'
+    },
+    headerMedico: {
+        flexDirection: 'row',
+        height: 70,
+
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        backgroundColor: '#A8F1C3'
+    },
+    headerMedico__texto: {
+        fontSize: 30,
+        color: '#707070'
+    },
+    headerMedico__icon: {
+
+    },
+    medicosLista: {
+        borderTopColor: 'black',
+        borderTopWidth: 1,
+    },
+    medicosLista__flatlist: {
+        height: 500 //Diminuir tamanho da Lista para apareer o que tem embaixo disso
+    },
+    rodapeMedico: {
+        alignItems: 'center',
+        padding: '2%',
+        color: 'rgba(112,112,112,0.47)',
+        borderRadius: 4,
+        borderWidth: 1,
+        borderColor: '#d6d7da',
+    },
+    rodapeMedico__texto: {
+
+    },
+    conteudoMedico: {
+        marginLeft: '10%',
+        marginBottom: 20,
+        marginRight: '10%'
+    },
+    conteudoMedico__topo: {
+        alignItems: 'center',
+        marginTop: '10%',
+        backgroundColor: '#A8F1C3',
+        color: '#707070'
+    },
+    conteudoMedico__topoTexto: {
+        color: '#707070'
+    },
+    conteudoMedico__corpo: {
+        backgroundColor: 'rgba(220,211,216,0.5)',
+        color: 'rgba(112,112,112,0.6)'
+    },
+    conteudoMedico__corpoTexto: {
+        color: '#9C9098'
+    },
+    bold: { fontWeight: 'bold' },
+    italic: { fontStyle: 'italic' }
+});
